@@ -1,8 +1,6 @@
 from parser.parser import Parser
-
-from optimizer.optimizer import (
-    optimize
-)
+from optimizer.optimizer import optimize
+from verifier.interpreter import Interpreter
 
 parser = Parser()
 
@@ -10,19 +8,32 @@ program = parser.parse_file(
     "samples/example.ir"
 )
 
-print("Before Optimization")
-print()
+optimized = optimize(program)
 
-for inst in program:
-    print(inst)
-
-optimized = optimize(
-    program
+original_output = (
+    Interpreter().execute(program)
 )
 
-print()
-print("After Optimization")
+optimized_output = (
+    Interpreter().execute(
+        optimized
+    )
+)
+
+print("Original Output:")
+print(original_output)
+
 print()
 
-for inst in optimized:
-    print(inst)
+print("Optimized Output:")
+print(optimized_output)
+
+print()
+
+if original_output == optimized_output:
+
+    print("PASS")
+
+else:
+
+    print("FAIL")
