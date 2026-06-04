@@ -1,5 +1,8 @@
 from parser.parser import Parser
-from cfg.cfg_builder import build_cfg
+
+from cfg.block_builder import (
+    build_blocks
+)
 
 parser = Parser()
 
@@ -7,16 +10,10 @@ program = parser.parse_file(
     "samples/example.ir"
 )
 
-graph = build_cfg(program)
-
-print("Nodes:")
-print(
-    list(graph.nodes())
+blocks = build_blocks(
+    program
 )
 
-print()
+for block in blocks:
 
-print("Edges:")
-print(
-    list(graph.edges())
-)
+    print(block)
