@@ -12,6 +12,34 @@ class Parser:
         if not line:
             return None
 
+        if line.endswith(":"):
+
+            label = line[:-1]
+
+            return Instruction(
+                "label",
+                arg1=label
+            )
+
+        if line.startswith("goto"):
+
+            target = line.split()[1]
+
+            return Instruction(
+                "goto",
+                arg1=target
+            )
+
+        if line.startswith("if"):
+
+            parts = line.split()
+
+            return Instruction(
+                "ifgoto",
+                arg1=parts[1],
+                arg2=parts[3]
+            )
+
         if line.startswith("print"):
 
             value = line.split()[1]

@@ -1,5 +1,8 @@
-a = 10
-b = 20
-c = a + b
-d = 999
-print c
+a = 1
+
+if a goto L1
+
+print 0
+
+L1:
+print 1

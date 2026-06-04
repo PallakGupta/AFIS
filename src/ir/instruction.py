@@ -42,4 +42,19 @@ class Instruction:
                 f"{self.arg1}"
             )
 
+        elif self.op == "label":
+
+            return f"{self.arg1}:"
+
+        elif self.op == "goto":
+
+            return f"goto {self.arg1}"
+
+        elif self.op == "ifgoto":
+
+            return (
+                f"if {self.arg1} "
+                f"goto {self.arg2}"
+            )
+
         return self.op
