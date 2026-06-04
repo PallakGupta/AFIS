@@ -3,6 +3,7 @@ from dependency.graph_builder import build_graph
 from shuffler.scheduler import random_topological_sort
 from verifier.interpreter import Interpreter
 from renamer.renamer import rename_program
+from fingerprint.fingerprint import diversification_score
 
 parser = Parser()
 
@@ -12,9 +13,7 @@ program = parser.parse_file(
 
 graph = build_graph(program)
 
-order = random_topological_sort(
-    graph
-)
+order = random_topological_sort(graph)
 
 shuffled_program = [
     program[i]
@@ -40,20 +39,19 @@ print()
 
 for inst in renamed_program:
     print(inst)
-    
+
 print()
 print("------------------")
 print()
 
 original_output = (
-    Interpreter()
-    .execute(program)
+    Interpreter().execute(program)
 )
 
 shuffled_output = (
-Interpreter().execute(
-    renamed_program
-)
+    Interpreter().execute(
+        renamed_program
+    )
 )
 
 print(
@@ -79,3 +77,27 @@ else:
     print(
         "Semantic Equivalence: FAIL"
     )
+
+report = diversification_score(
+    program,
+    renamed_program
+)
+
+print()
+print("Fingerprint Report")
+print()
+
+print("Original Hash:")
+print(report["original_hash"])
+
+print()
+
+print("Transformed Hash:")
+print(report["transformed_hash"])
+
+print()
+
+print(
+    "Diversification Score:",
+    report["score"]
+)
